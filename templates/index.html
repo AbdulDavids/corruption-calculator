@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZA Corruption Breakdown</title>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    body {
+      background-color: rgb(17, 24, 39);
+      color: white;
+      font-family: system-ui, -apple-system, sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .glass {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: width 0.3s ease-in-out;
+    }
+
+    #main-card {
+      max-width: 32rem;
+      width: 100%;
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .expanded {
+      width: 100% !important;
+      max-width: 900px !important;
+    }
+
+    h1 {
+      font-size: 1.875rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+
+    .subtitle {
+      color: rgb(209, 213, 219);
+      font-size: 0.875rem;
+      margin-bottom: 1.5rem;
+    }
+
+    #salaryForm {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: rgba(55, 65, 81, 0.5);
+      color: white;
+      border: 1px solid rgb(75, 85, 99);
+      border-radius: 0.5rem;
+      outline: none;
+      box-sizing: border-box;
+    }
+
+    input:focus {
+      border-color: rgb(59, 130, 246);
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
+    }
+
+    button {
+      width: 100%;
+      padding: 0.5rem 1rem;
+      background-color: rgb(37, 99, 235);
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    button:hover {
+      background-color: rgb(29, 78, 216);
+    }
+
+    button:disabled {
+      background-color: rgb(75, 85, 99);
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+
+    #result {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      border-radius: 0.5rem;
+    }
+
+    /* Markdown Content Styling */
+    .markdown-content {
+      color: white;
+      text-align: left;
+    }
+
+    .markdown-content > * + * {
+      margin-top: 1rem;
+    }
+
+    .markdown-content h1 {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: rgb(96, 165, 250);
+      border-bottom: 1px solid rgba(96, 165, 250, 0.3);
+      padding-bottom: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .markdown-content h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: rgb(147, 197, 253);
+      margin: 1.5rem 0 0.75rem;
+    }
+
+    .markdown-content h3 {
+      font-size: 1.125rem;
+      font-weight: 500;
+      color: rgb(191, 219, 254);
+      margin: 1rem 0 0.5rem;
+    }
+
+    .markdown-content p {
+      color: rgb(229, 231, 235);
+      line-height: 1.625;
+    }
+
+    .markdown-content ul {
+      margin: 0.5rem 0;
+      padding-left: 1.5rem;
+      list-style-type: disc;
+    }
+
+    .markdown-content li {
+      color: rgb(209, 213, 219);
+      margin: 0.5rem 0;
+    }
+
+    .markdown-content strong {
+      color: rgb(74, 222, 128);
+      font-weight: 600;
+    }
+
+    .markdown-content em {
+      color: rgb(250, 204, 21);
+      font-style: normal;
+    }
+
+    .markdown-content hr {
+      margin: 1.5rem 0;
+      border: none;
+      border-top: 1px solid rgb(75, 85, 99);
+    }
+
+    .markdown-content code {
+      background-color: rgb(31, 41, 55);
+      color: rgb(244, 114, 182);
+      padding: 0.125rem 0.5rem;
+      border-radius: 0.25rem;
+    }
+
+    /* Animation classes */
+    .animate-spin {
+      animation: spin 1s linear infinite;
+    }
+
+    .animate-shake {
+      animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes shake {
+      10%, 90% { transform: translate3d(-1px, 0, 0); }
+      20%, 80% { transform: translate3d(2px, 0, 0); }
+      30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+      40%, 60% { transform: translate3d(4px, 0, 0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .typing-effect {
+      overflow: hidden;
+      border-right: 2px solid transparent;
+      white-space: pre-wrap;
+      animation: slideUp 0.3s ease-out;
+    }
+
+    .typing-effect.active {
+      border-right: 2px solid rgb(96, 165, 250);
+      animation: typing 1s steps(1) infinite;
+    }
+
+    @keyframes typing {
+      0%, 100% { border-color: transparent; }
+      50% { border-color: rgb(96, 165, 250); }
+    }
+
+    #loading-text {
+      color: rgb(156, 163, 175);
+      font-size: 0.875rem;
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.5s ease-out forwards;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Style number input spinners */
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      opacity: 0;
+      background: rgb(31, 41, 55);
+      border-left: 1px solid rgb(75, 85, 99);
+      height: 100%;
+      position: absolute;
+      right: 0;
+      top: 0;
+      padding: 0 8px;
+      cursor: pointer;
+      border-top-right-radius: 0.5rem;
+      border-bottom-right-radius: 0.5rem;
+      display: flex;
+      align-items: center;
+      transition: all 0.2s ease-in-out;
+    }
+
+    input[type="number"]:hover::-webkit-inner-spin-button,
+    input[type="number"]:hover::-webkit-outer-spin-button {
+      opacity: 1;
+    }
+
+    input[type="number"]::-webkit-inner-spin-button:hover,
+    input[type="number"]::-webkit-outer-spin-button:hover {
+      background-color: rgb(55, 65, 81);
+    }
+
+    input[type="number"]::-webkit-inner-spin-button:active,
+    input[type="number"]::-webkit-outer-spin-button:active {
+      background-color: rgb(75, 85, 99);
+    }
+    
+    input[type="number"] {
+      position: relative;
+      padding-right: 35px; /* Increased padding for wider buttons */
+    }
+  </style>
+</head>
+<body>
+  <div id="main-card" class="glass">
+    <h1>ZA Corruption Breakdown🇿🇦</h1>
+    <p class="subtitle">Ever wondered how much of your salary is funding some politician's new Maserati? Let's find out.🔎</p>
+    <form id="salaryForm">
+      <input type="number" 
+             id="salary" 
+             name="salary" 
+             step="1000" 
+             min="0"
+             required 
+             placeholder="Enter your monthly salary (in R)">
+      <button type="submit">Submit</button>
+    </form>
+    <div id="result"></div>
+  </div>
+  
+  <script>
+    // Configure marked options for better formatting
+    marked.setOptions({
+      breaks: true,
+      gfm: true,
+      headerIds: false,
+      mangle: false
+    });
+
+    document.getElementById("salaryForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const salary = document.getElementById("salary").value;
+      const resultDiv = document.getElementById("result");
+      const mainCard = document.getElementById("main-card");
+      const submitButton = this.querySelector('button[type="submit"]');
+      
+      submitButton.disabled = true;
+      resultDiv.innerHTML = '<div id="loading-text">Analyzing corruption patterns...</div>';
+      
+      try {
+        const response = await fetch(`/ai_corruption_breakdown?salary=${salary}`);
+        if (response.ok) {
+          const data = await response.json();
+          mainCard.classList.add("expanded");
+          
+          // Create container for markdown content
+          const htmlContent = marked.parse(data.ai_breakdown);
+          resultDiv.innerHTML = `<div class="markdown-content fade-in">${htmlContent}</div>`;
+        } else {
+          const errorData = await response.json();
+          resultDiv.innerHTML = `
+            <div class="animate-shake" style="color: #ef4444;">
+              Oops, AI had a meltdown: ${errorData.detail}
+            </div>
+          `;
+        }
+      } catch (error) {
+        resultDiv.innerHTML = `
+          <div class="animate-shake" style="color: #ef4444;">
+            Something went wrong: ${error}
+          </div>
+        `;
+      }
+    });
+  </script>
+</body>
+</html>
