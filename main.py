@@ -41,7 +41,7 @@ Tax Brackets (2025):
 - Over R1,731,600: 45%
 
 Calculate total tax, estimate 15% corruption loss from tax paid, and show take-home pay.
-Format response in markdown with bold text for key numbers. End with a snarky comment.
+Format response in markdown with bold text for key numbers. End with a snarky comment. Try and slot an ANC joke, a Maserati reference, or a "load shedding" pun in there.
 """
 
     user_prompt = f"Calculate tax and corruption breakdown for my R{salary:,.2f} monthly salary. Keep it snarky and use markdown formatting."
