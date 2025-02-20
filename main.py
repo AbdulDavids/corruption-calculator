@@ -129,4 +129,4 @@ I want **exact numbers** and **clear calculations**. No fluff.
 # Run the FastAPI application with Uvicorn
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=3000)
