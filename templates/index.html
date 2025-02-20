@@ -295,11 +295,63 @@
       position: relative;
       padding-right: 35px; /* Increased padding for wider buttons */
     }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 1rem;
+      }
+
+      #main-card {
+        max-width: calc(100% - 3rem);
+        padding: 1.5rem;
+        margin: 1.5rem;
+        border-radius: 0.75rem;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      .subtitle {
+        font-size: 0.8rem;
+      }
+
+      input, button {
+        padding: 0.875rem;
+        font-size: 1rem; /* Larger font for better tapping */
+      }
+
+      .expanded {
+        max-width: calc(100% - 2rem) !important;
+        margin: 1rem !important;
+        border-radius: 0.75rem !important;
+      }
+
+      .markdown-content {
+        font-size: 0.95rem;
+        line-height: 1.6;
+      }
+
+      .markdown-content h1 {
+        font-size: 1.25rem;
+      }
+
+      .markdown-content h2 {
+        font-size: 1.125rem;
+      }
+
+      /* Increase tap target size for number input buttons */
+      input[type="number"]::-webkit-inner-spin-button,
+      input[type="number"]::-webkit-outer-spin-button {
+        padding: 0 12px;
+        min-height: 44px; /* Minimum recommended tap target size */
+      }
+    }
   </style>
 </head>
 <body>
   <div id="main-card" class="glass">
-    <h1>ZA Corruption Breakdown🇿🇦</h1>
+    <h1>ZA Tax Breakdown🇿🇦</h1>
     <p class="subtitle">Ever wondered how much of your salary is funding some politician's new Maserati? Let's find out.🔎</p>
     <form id="salaryForm">
       <input type="number" 
